@@ -3,7 +3,7 @@
 //          an error. We will work around this error in our next
 //          task - for now just confirm that the error occurs.
 //--------------------------------------------------------------------------------------------
-Integer numDays = 10;
+Integer numDays = 12;
 List<Case> cases = [SELECT Id, Subject, CreatedDate
                     FROM Case
                     WHERE CreatedDate = LAST_N_DAYS:numDays];
