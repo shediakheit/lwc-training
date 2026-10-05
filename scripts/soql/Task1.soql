@@ -1,0 +1,2 @@
+SELECT Name, AccountId
+  FROM Contact

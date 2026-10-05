@@ -1,0 +1,2 @@
+SELECT Id, Subject, Status, IsClosed
+  FROM Case
