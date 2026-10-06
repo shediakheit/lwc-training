@@ -1,5 +1,5 @@
 public with sharing class Exercise3 {
-        
+       public static Integer count = 0; 
    public static void handleCompetitorLinks(List<Competitor__c> newList, Map<Id, Competitor__c> oldMap, Map<Id, Competitor__c> newMap) {
     
     // -------------------------------------------------------------
