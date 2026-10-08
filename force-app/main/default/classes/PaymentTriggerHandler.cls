@@ -1,5 +1,4 @@
 public with sharing class PaymentTriggerHandler extends TriggerHandler implements ITriggerHandler {
-    public static Integer count = 0;
     private Map<Id, Payment__c> newMap;
     private Map<Id, Payment__c> oldMap;
     private List<Payment__c> TriggerNew;
@@ -12,46 +11,38 @@ public with sharing class PaymentTriggerHandler extends TriggerHandler implement
         this.TriggerOld = (List<Payment__c>) Trigger.Old;
     }
     
-    // Use this variable to disable this trigger from transaction
     public static Boolean TriggerDisabled = false;
     
     public Boolean isDisabled(){
         return TriggerDisabled;
     }
     
-    public override void beforeInsert() {
-       
-                // Exercise4.insertIdentifiers(oldMap, TriggerOld);
-                        
-Exercise4.insertIdentifiers(oldMap, TriggerNew);
-
+    public override void beforeInsert() {     
+        Exercise5.validateAndProcessPayments(null, TriggerNew);
     }
 
     public override void afterInsert() {
-        
+        Exercise5.rollupTotalsToOpportunity(null, TriggerNew);
     }
 
     public override void beforeUpdate() {
-     
-                        // Exercise4.insertIdentifiers(oldMap, TriggerOld);
-Exercise4.insertIdentifiers(oldMap, TriggerNew);
+        Exercise5.validateAndProcessPayments(oldMap, TriggerNew);
     }
 
     public override void afterUpdate() {
-        // Intentionally blank
-                        // Exercise4.insertIdentifiers(oldMap, TriggerOld);
-
+        Exercise5.rollupTotalsToOpportunity(oldMap, TriggerNew);
     }
     
     public override void beforeDelete() {
-        
+        Exercise5.validateDelete(TriggerOld);
     }
     
     public override void afterDelete() {
-        
+        // FIXED: Passing oldMap as the first argument
+        Exercise5.rollupTotalsToOpportunity(oldMap, null);
     }
     
     public override void afterUnDelete() {
-        
+        Exercise5.rollupTotalsToOpportunity(null, TriggerNew);
     }
 }

@@ -1,0 +1,43 @@
+<template>
+    <lightning-card title="Employee Directory" icon-name="standard:user">
+        <div >
+            
+            <lightning-combobox
+                name="departmentDropdown"
+                label="Select Department"
+                value={selectedDepartmentValue}
+                options={departmentOptions}}>
+            </lightning-combobox> 
+
+            <lightning-button 
+                label="Show Employees" 
+                variant="brand" 
+                onclick={handleFilterClick}>
+            </lightning-button>
+
+            <template lwc:if={filteredEmployees.length}>
+                <h3  >Employees:</h3>
+                <ul >
+                    <template for:each={filteredEmployees} for:item="emp">
+                        <!-- data-id is our "sticky note" holding the employee's unique ID -->
+                        <li key={emp.id} 
+                            data-id={emp.id} 
+                            onclick={handleEmployeeClick}>
+                            <strong>{emp.name}</strong> - {emp.department}
+                        </li>
+                    </template>
+                </ul>
+            </template>
+                
+            <template lwc:if={selectedEmployee}>
+                <div >
+                    <h3 >{selectedEmployee.name}</h3>
+                    <p>Department:  {selectedEmployee.department}</p>
+                    <p>Role: {selectedEmployee.role}</p>
+                    <p>Email: {selectedEmployee.email}</p>
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>
