@@ -1,0 +1,28 @@
+<template>
+    <div >
+        <lightning-input 
+            type="text" 
+            label="New Account Name" 
+            value={newAccountName} 
+            onchange={handleNameChange}>
+        </lightning-input>
+        <lightning-button 
+            label="Create Account" 
+            variant="brand" 
+            onclick={handleCreateAccount}>
+        </lightning-button>
+    </div>
+
+    <lightning-input 
+        type="number" 
+        label="Max Accounts to Display" 
+        value={maxRecords} 
+        onchange={handleMaxAccountsChange}>
+    </lightning-input>
+
+    <template for:each={accounts} for:item="acc">
+        <div key={acc.Id} >
+            {acc.Name}
+        </div>
+    </template>
+</template>
