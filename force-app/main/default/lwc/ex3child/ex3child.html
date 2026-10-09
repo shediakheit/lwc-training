@@ -1,0 +1,11 @@
+<template>
+    <div style="padding: 15px; border: 1px solid #ccc; background: white; margin: 10px;">
+        <p>Child Component Status: <strong>{status}</strong></p>
+        <!-- Standard lightning component ensures it renders properly -->
+        <lightning-button 
+            label="Toggle Selection" 
+            variant="brand" 
+            onclick={handleToggle}>
+        </lightning-button>
+    </div>
+</template>

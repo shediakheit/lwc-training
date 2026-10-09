@@ -1,0 +1,13 @@
+<template>
+    <div style="padding: 20px; border: 2px solid #0070d2; background: #f3f2f1; margin: 10px;">
+        <h3>Parent Component</h3>
+        <p>Status received from Child: <strong>{parentTrackedStatus}</strong></p>
+        
+        <c-ex3-child onchildtoggle={handleChildToggle}></c-ex3-child>
+        <lightning-button 
+            label="asdasd" 
+            variant="brand" 
+            >
+        </lightning-button>
+    </div>
+</template>
