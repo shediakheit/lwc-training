@@ -1,0 +1,97 @@
+<template>
+    <lightning-card title="Account & Opportunity Monitor" icon-name="standard:opportunity">
+        <div class="slds-var-m-around_medium">
+            <template if:true={accountData}>
+                <lightning-accordion allow-multiple-sections-open>
+                    <template for:each={accountData} for:item="acc">
+                        <lightning-accordion-section 
+                            key={acc.accountId} 
+                            name={acc.accountId} 
+                            label={acc.accountName}>
+                            
+                            <!-- Summary Header Actions (Matches Left / Right alignment in mock) -->
+                            <div slot="actions" class="slds-grid slds-grid_vertical-align-center">
+                                <span class="slds-text-color_weak slds-var-m-right_medium">{acc.oppCount} Opportunities</span>
+                                <strong class="slds-text-heading_small"><lightning-formatted-number value={acc.totalAmount} format-style="currency"></lightning-formatted-number></strong>
+                            </div>
+
+                            <!-- Inner Opportunities List Layout matching your mockup -->
+                            <template if:true={acc.oppCount}>
+                                <div class="slds-var-p-vertical_small">
+                                    <template for:each={acc.opportunities} for:item="opp">
+                                        <div key={opp.Id} class="slds-grid slds-grid_vertical-align-center slds-border_bottom slds-var-p-vertical_medium opportunity-row">
+                                            
+                                            <!-- Left Content: Stacked Name and Stage -->
+                                            <div class="slds-col slds-grow">
+                                                <div class="slds-text-heading_small slds-var-m-bottom_xx-small">
+                                                    <strong>{opp.Name}</strong>
+                                                </div>
+                                                <div class="slds-text-color_weak slds-text-body_regular">
+                                                    {opp.StageName}
+                                                </div>
+                                            </div>
+
+                                            <!-- Right Content: Actions and Amount alignment -->
+                                            <div class="slds-col slds-no-flex slds-grid slds-grid_vertical-align-center">
+                                                <template if:false={opp.IsClosed}>
+                                                    <lightning-button 
+                                                        label="Mark as Closed" 
+                                                        variant="neutral" 
+                                                        size="small"
+                                                        data-id={opp.Id}
+                                                        onclick={handleMarkAsClosed}
+                                                        class="slds-var-m-right_large">
+                                                    </lightning-button>
+                                                </template>
+                                                <span class="slds-text-heading_small">
+                                                    <lightning-formatted-number value={opp.Amount} format-style="currency"></lightning-formatted-number>
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+
+                            <!-- No Opportunities Fallback -->
+                            <template if:false={acc.oppCount}>
+                                <p class="slds-text-color_weak slds-var-m-top_small">No opportunities linked to this account.</p>
+                            </template>
+
+                        </lightning-accordion-section>
+                    </template>
+                </lightning-accordion>
+            </template>
+
+            <template if:true={error}>
+                <p class="slds-text-color_error">Error loading data.</p>
+            </template>
+        </div>
+    </lightning-card>
+
+    <!-- Modal for Closing Stage Choice -->
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">Update Opportunity Stage</h2>
+                </header>
+                <div class="slds-modal__content slds-var-p-around_medium">
+                    <lightning-radio-group 
+                        name="stageRadio"
+                        label="Select Final Status"
+                        options={stageOptions}
+                        value={selectedStage}
+                        type="radio"
+                        onchange={handleStageChange}>
+                    </lightning-radio-group>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancel" class="slds-var-m-right_x-small" onclick={closeModal}></lightning-button>
+                    <lightning-button label="Update" variant="brand" onclick={handleSaveStage} disabled={isUpdateDisabled}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

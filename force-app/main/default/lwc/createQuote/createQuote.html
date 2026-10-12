@@ -1,0 +1,94 @@
+<template>
+    <lightning-card title="Create Quote" icon-name="standard:quote">
+        <div class="slds-p-around_medium">
+           
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </template>
+ 
+            <template if:true={error}>
+                <div class="slds-text-color_error slds-m-bottom_small">{error}</div>
+            </template>
+ 
+
+            <div class="slds-form">
+                 
+                <lightning-input 
+                    type="text" 
+                    label="Quote Name" 
+                    data-field="Name" 
+                    required 
+                    onchange={handleFieldChange}
+                    class="slds-m-bottom_small">
+                </lightning-input>
+                 <!-- office / retail-->
+                <template if:true={isOfficeOrRetail}>
+                    <lightning-input 
+                        type="date" label="Proposed Start Date" data-field="Proposed_Start_Date__c" 
+                        required onchange={handleFieldChange}>
+                    </lightning-input>
+                    
+                    <lightning-input 
+                        type="date" label="Proposed End Date" data-field="Proposed_End_Date__c" 
+                        required onchange={handleFieldChange}>
+                    </lightning-input>
+
+                    <lightning-input 
+                        type="number" label="Payment Terms (Payments/Year)" data-field="Payment_Terms__c" 
+                        required onchange={handleFieldChange}>
+                    </lightning-input>
+
+                    <lightning-input 
+                        type="number" label="Grace Period (Months)" data-field="Grace_Period__c" 
+                        required onchange={handleFieldChange}>
+                    </lightning-input>
+                </template>
+
+                <!--   Retail   -->
+                <template if:true={isRetail}>
+                    <lightning-combobox
+                        label="Retail Sales Category"
+                        data-field="Retail_Sales_Category__c"
+                        placeholder="Select Category"
+                        options={retailOptions}
+                        required
+                        onchange={handleFieldChange}>
+                    </lightning-combobox>
+                </template>
+
+                <!-- Land   -->
+                <template if:true={isLand}>
+                    <lightning-input 
+                        type="date" label="Proposed Start Date" data-field="Proposed_Start_Date__c" 
+                        required onchange={handleLandStartChange}>
+                    </lightning-input>
+
+                    <lightning-input 
+                        type="number" label="Proposed Duration (Years)" data-field="Proposed_Duration__c" 
+                        min="30" message-when-range-underflow="Minimum duration is 30 years."
+                        required onchange={handleDurationChange}>
+                    </lightning-input>
+
+                    <lightning-input 
+                        type="date" label="Proposed End Date" value={calculatedEndDate} 
+                        readonly title="Calculated automatically" disabled>
+                    </lightning-input>
+
+                    <lightning-input 
+                        type="number" label="Rent Review Frequency (Years)" data-field="Rent_Review_Frequency__c" 
+                        required onchange={handleFieldChange}>
+                    </lightning-input>
+
+                    <lightning-input 
+                        type="number" label="Payment Terms" value={landPaymentTerms} 
+                        readonly title="Fixed for Land">
+                    </lightning-input>
+                </template>
+            </div>
+            
+            <div class="slds-m-top_medium slds-align_absolute-center">
+                <lightning-button variant="brand" label="Create Quote" onclick={handleSave}></lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+</template>
