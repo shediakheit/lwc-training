@@ -1,0 +1,55 @@
+<template>
+    <lightning-card title="Case Manager" icon-name="standard:case">
+        <div>
+            <div >
+                <h3>Create New Case</h3>
+                <lightning-input 
+                    label="Subject" 
+                    value={newSubject} 
+                    onchange={handleFormChange} 
+                    data-field="subject"
+                    required>
+                </lightning-input>
+                <lightning-textarea 
+                    label="Description" 
+                    value={newDescription} 
+                    onchange={handleFormChange} 
+                    data-field="description">
+                </lightning-textarea>
+                <lightning-button 
+                    label="Create Case" 
+                    variant="brand" 
+                    onclick={handleCreateCase} 
+>
+                </lightning-button>
+            </div>
+
+            <div>
+                <lightning-input 
+                    type="search" 
+                    label="Search by Case Number" 
+                    value={searchKey} 
+                    onchange={handleSearchChange} 
+                    placeholder="Enter case number...">
+                </lightning-input>
+            </div>
+
+            <template if:true={cases}>
+                <div style="height: 300px;">
+                    
+                <lightning-datatable
+                    key-field="Id"
+                    data={filteredCases}
+                    columns={columns}
+                    hide-checkbox-column>
+                </lightning-datatable>
+
+                </div>
+            </template>
+            <template if:true={error}>
+                <div>Error loading cases.</div>
+            </template>
+            
+        </div>
+    </lightning-card>
+</template>
